@@ -3,17 +3,9 @@ import redis
 r = redis.Redis("127.0.0.1",7000,decode_responses=True)
 
 
-r.zadd("leaderboard ",{
-    'mohammadreza':1900,
-    "mehrnaz":2000
-})
 
 
-
-
-
-
-
+        
 #/////////////////////////////////document
 # 
 # import redis
@@ -123,3 +115,97 @@ r.zadd("leaderboard ",{
 # print(r.scard("online_users"))
 # r.srem("online_users","user:2")
 # print(r.scard("online_users"))
+
+
+
+# ////////// SORTED SET //////////////////////
+
+# r.zadd("leaderboard",{
+#     "mohammadreza":2000,
+#     "alireza":3000
+# })
+
+
+# print(r.zrange("leaderboard",0,-1))
+
+# print(r.zrevrange("leaderboard",0,-1,withscores=True))
+
+
+
+# r.zincrby("leaderboard",2000,"mohammadreza")
+
+# print(r.zrange("leaderboard",0,-1,withscores=True))
+
+# print(r.zrevrange("leaderboard",0,-1,withscores=True))
+
+
+# print(r.zscore("leaderboard","mohammadreza"))
+
+# print(r.zrank("leaderboard","mohammadreza"))
+
+# //////////////////////////////////////////////// key management /////////////////////////////////
+
+# r.set("product:1","iphone18")
+
+# print(r.type("user:1")) 
+# print(r.type("product:1"))
+
+ 
+# print(r.exists("user:1"))
+# print(r.exists("user:10"))
+
+# r.rename("product:1","phone:1")
+# phone_1=r.get("phone:1")
+# print(phone_1)
+
+# print("////////////////////////////////// find key with keys() /////////////////////////")
+# print(r.keys('*'))
+
+
+# print("////////////////////////////////// find key with scan /////////////////////////")
+# for key in r.scan_iter():
+#     print(key)
+
+# print("////////////////////////////////// find key with scan with filter(match) /////////////////////////")
+# for key in r.scan_iter(match="users:*"):
+#     print(key)
+
+
+
+
+
+# print("////////////////////////////////// pipeline /////////////////////////")
+# pipe = r.pipeline()
+# pipe.set("user:1","mohammad")
+# pipe.set("user:2","alireza")
+# pipe.set("user:3","ali")
+# pipe.set("user:4","mohammadreza")
+# pipe.set("user:5","amir")
+# pipe.get("user:1")
+# pipe.get("user:2")
+# pipe.get("user:3")
+# pipe.get("user:4")
+# pipe.get("user:5")
+# result = pipe.execute()
+# print(result)
+
+
+
+
+
+# print("////////////////////////////////// Transaction /////////////////////////")
+
+# r.incrby("balance",1000)
+
+# with r.pipeline(transaction=True) as pipe:
+    
+#     pipe.watch("balance")
+#     balance = int(pipe.get("balance"))
+#     if balance >=1000:
+#         pipe.multi()
+#         pipe.decrby("balance",1000)
+#         pipe.execute()
+        
+        
+        
+# print("////////////////////////////////// pub/sub /////////////////////////")
