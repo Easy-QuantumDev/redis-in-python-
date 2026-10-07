@@ -2,9 +2,16 @@ import redis
 
 r = redis.Redis("127.0.0.1",7000,decode_responses=True)
 
+message_id = r.xadd("orders",{"name":"mohammadreza","age":22})
+r.xadd("orders",{"name":"alireza","age":26})
+print(message_id)
+messages= r.xrange("orders",'-','+')
+print(messages)
 
-
-
+message_2 = r.xread({
+    'orders':'0'
+})
+print(message_2)
         
 #/////////////////////////////////document
 # 
@@ -209,3 +216,10 @@ r = redis.Redis("127.0.0.1",7000,decode_responses=True)
         
         
 # print("////////////////////////////////// pub/sub /////////////////////////")
+
+#!!!!!!!!!!!!!!!!!!!!  look at the subscribe.py and publisher.py 
+
+
+
+# //////////////////////////////////REDIS STREAM ////////////////////////
+
