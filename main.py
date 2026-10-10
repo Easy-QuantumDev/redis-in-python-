@@ -1,18 +1,10 @@
 import redis
 
 r = redis.Redis("127.0.0.1",7000,decode_responses=True)
+# r.xgroup_create("orders","orders_workers",id=0,mkstream=True)
 
-message_id = r.xadd("orders",{"name":"mohammadreza","age":22})
-r.xadd("orders",{"name":"alireza","age":26})
-print(message_id)
-messages= r.xrange("orders",'-','+')
-print(messages)
-
-message_2 = r.xread({
-    'orders':'0'
-})
-print(message_2)
-        
+# print("consumer group created")
+# print(r.xpending("orders","orders_workers"))
 #/////////////////////////////////document
 # 
 # import redis
@@ -222,4 +214,52 @@ print(message_2)
 
 
 # //////////////////////////////////REDIS STREAM ////////////////////////
+# import redis
 
+# r = redis.Redis("127.0.0.1",7000,decode_responses=True)
+
+# message_id = r.xadd("orders",{"name":"mohammadreza","age":22})
+# r.xadd("orders",{"name":"alireza","age":26})
+# print(message_id)
+# messages= r.xrange("orders",'-','+')
+# print(messages)
+
+# message_2 = r.xread({
+#     'orders':'0'
+# })
+# print(message_2)
+        
+# //////////////////////////////////REDIS STREAM group ////////////////////////
+
+# r.xgroup_create("orders","orders_workers",id=0,mkstream=True)
+
+# print("consumer group created")
+# //////////////////////////////////REDIS STREAM accept streams and create worker please look at worker.py ////////////////////////
+
+# print(r.xpending("orders","orders_workers"))        
+
+# //////////////////////////////////REDIS STREAM  pending list   ////////////////////////
+# import redis
+
+# r = redis.Redis(
+#     "127.0.0.1",
+#     7000,
+#     decode_responses=True
+# )
+
+# messages = r.xpending_range(
+#     "orders",
+#     "orders_workers",
+#     min="-",
+#     max="+",
+#     count=10
+# )
+
+# for message in messages:
+#     print("ID:", message["message_id"])
+#     print("Consumer:", message["consumer"])
+#     print("Idle time:", message["time_since_delivered"], "ms")
+#     print("Delivery count:", message["times_delivered"])
+#     print("-" * 30)
+        
+        
